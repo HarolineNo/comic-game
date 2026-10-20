@@ -1,0 +1,57 @@
+.color-set {
+    display: flex;
+    flex-direction: column;
+}
+
+.color-option {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.red {
+    background-color: red;
+}
+
+.pink {
+    background-color: hotpink;
+}
+
+.orange {
+    background-color: darkorange;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.green {
+    background-color: green;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.purple {
+    background-color: purple;
+}
+
+.brown {
+    background-color: saddlebrown;
+}
+
+.gray {
+    background-color: gray;
+}
+
+.black {
+    background-color: black;
+}
+
+.white {
+    background-color: white;
+}
+
+canvas {
+    border: 1px solid black;
+}
