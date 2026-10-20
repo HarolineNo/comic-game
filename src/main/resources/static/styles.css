@@ -3,7 +3,7 @@
     flex-direction: column;
 }
 
-.color-option {
+.color-option, .clear-canvas {
     width: 1.5rem;
     height: 1.5rem;
 }

@@ -6,20 +6,23 @@
     <title>Drawing Canvas</title>
 </head>
 <body>
-    <div class="color-set">
-        <button type="button" class="color-option red" onClick="changeColor('red')"></button>
-        <button type="button" class="color-option pink" onClick="changeColor('hotpink')"></button>
-        <button type="button" class="color-option orange" onClick="changeColor('darkorangegit commmit')"></button>
-        <button type="button" class="color-option yellow" onClick="changeColor('yellow')"></button>
-        <button type="button" class="color-option green" onClick="changeColor('green')"></button>
-        <button type="button" class="color-option blue" onClick="changeColor('blue')"></button>
-        <button type="button" class="color-option purple" onClick="changeColor('purple')"></button>
-        <button type="button" class="color-option brown" onClick="changeColor('saddlebrown')"></button>
-        <button type="button" class="color-option gray" onClick="changeColor('gray')"></button>
-        <button type="button" class="color-option black" onClick="changeColor('black')"></button>
-        <button type="button" class="color-option white" onClick="changeColor('white')"></button>
+    <div id="painting-canvas" style="display: flex;">
+        <div class="color-set">
+            <button type="button" class="color-option red" onClick="changeColor('red')"></button>
+            <button type="button" class="color-option pink" onClick="changeColor('hotpink')"></button>
+            <button type="button" class="color-option orange" onClick="changeColor('darkorange')"></button>
+            <button type="button" class="color-option yellow" onClick="changeColor('yellow')"></button>
+            <button type="button" class="color-option green" onClick="changeColor('green')"></button>
+            <button type="button" class="color-option blue" onClick="changeColor('blue')"></button>
+            <button type="button" class="color-option purple" onClick="changeColor('purple')"></button>
+            <button type="button" class="color-option brown" onClick="changeColor('saddlebrown')"></button>
+            <button type="button" class="color-option gray" onClick="changeColor('gray')"></button>
+            <button type="button" class="color-option black" onClick="changeColor('black')"></button>
+            <button type="button" class="color-option white" onClick="changeColor('white')"></button>
+            <button type="button" class="clear-canvas" onClick="clearCanvas()"></button>
+        </div>
+        <canvas id="canvas" width="500px" height="300px"></canvas>
     </div>
-    <canvas id="canvas" width="500px" height="300px"></canvas>
 
     <script>
         const c = document.getElementById("canvas");
@@ -34,6 +37,7 @@
             context.lineTo(x2, y2);
             context.stroke();
             context.closePath();
+            context.save();
         }
 
         c.addEventListener('mousedown', (e) => {
@@ -61,6 +65,11 @@
 
         function changeColor(color) {
             ctx.strokeStyle = color;
+        }
+
+        function clearCanvas() {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, c.width, c.height)
         }
 
     </script>
