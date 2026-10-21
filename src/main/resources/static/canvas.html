@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=delete" />
+    <link rel="stylesheet" type="text/css" href="css/styles.css" th:href="@{/css/styles.css}"/>
     <title>Drawing Canvas</title>
 </head>
 <body>
@@ -19,33 +20,51 @@
             <button type="button" class="color-option gray" onClick="changeColor('gray')"></button>
             <button type="button" class="color-option black" onClick="changeColor('black')"></button>
             <button type="button" class="color-option white" onClick="changeColor('white')"></button>
-            <button type="button" class="clear-canvas" onClick="clearCanvas()"></button>
+            <button type="button" class="clear-canvas" onClick="clearCanvas()">
+                <i class="material-symbols-outlined">delete</i>
+            </button>
         </div>
         <canvas id="canvas" width="500px" height="300px"></canvas>
+    </div>
+    <div class="brush-size">
+        <label>
+            <input type="range" min="1" max="50" value="5" id="slider">
+        </label>
     </div>
 
     <script>
         const c = document.getElementById("canvas");
+        const slider = document.getElementById("slider");
         const ctx = c.getContext("2d");
         let x = 0;
         let y = 0;
         let isDrawing = false;
+        let brushSize = 5;
 
+        <!--Function to draw a line based on user's mouse position-->
         function drawLine(context, x1, y1, x2, y2) {
             context.beginPath();
+            <!--Starts line at the position where the user first begins to hold down their mouse-->
             context.moveTo(x1, y1);
+            <!--Determines the path of the line depending on the coordinates when the mouse moves-->
             context.lineTo(x2, y2);
+            context.lineWidth = brushSize;
+            <!--Determines the shape of the line (the shape of the end caps)-->
+            context.lineCap = 'round';
+            <!--Creates a rounded corner when two lines meet-->
+            context.lineJoin = 'round';
+            <!--Renders the line-->
             context.stroke();
-            context.closePath();
-            context.save();
         }
 
+        <!--When the user presses down on their mouse, isDrawing is set to true and the line's beginning is offest to match the user's position-->
         c.addEventListener('mousedown', (e) => {
             x = e.offsetX;
             y = e.offsetY;
             isDrawing = true;
         })
 
+        <!--The x and y positions are offset to match the mouse's position to draw a continuous line-->
         c.addEventListener('mousemove', (e) => {
             if (isDrawing) {
                 drawLine(ctx, x, y, e.offsetX, e.offsetY);
@@ -54,6 +73,7 @@
             }
         })
 
+        <!--When the user stop holding their mouse down, isDrawing is set to false, the line ends at the user's last position, and the coordinates are reset back to 0,0-->
         window.addEventListener('mouseup', (e) => {
             if (isDrawing) {
                 drawLine(ctx, x, y, e.offsetX, e.offsetY);
@@ -63,14 +83,22 @@
             }
         })
 
+        <!--When user clicks a color, the color of the brush changes to that color-->
         function changeColor(color) {
             ctx.strokeStyle = color;
         }
 
+        <!--When user clicks the clear button, a filled white rectangle is filled starting from the top left, matching the canvas's proportions-->
         function clearCanvas() {
             ctx.fillStyle = 'white';
             ctx.fillRect(0, 0, c.width, c.height)
         }
+
+        <!--Changes the size of the brush based ont the value of the input slider-->
+        slider.addEventListener('change', (e) => {
+            brushSize = e.target.value;
+            ctx.lineWidth = brushSize;
+        })
 
     </script>
 </body>

@@ -8,6 +8,12 @@
     height: 1.5rem;
 }
 
+.clear-canvas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .red {
     background-color: red;
 }
