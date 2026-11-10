@@ -1,14 +1,14 @@
-.color-set {
+.tool-set {
     display: flex;
     flex-direction: column;
 }
 
-.color-option, .clear-canvas {
+.color-option, .clear-canvas, .undo, .redo {
     width: 1.5rem;
     height: 1.5rem;
 }
 
-.clear-canvas {
+.clear-canvas, .undo, .redo {
     display: flex;
     align-items: center;
     justify-content: center;
