@@ -12,6 +12,7 @@ let points = {x1:0, y1:0, x2:0, y2:0};
 let currentTool = 'pen';
 let isDrawing = false;
 let brushSize = 5;
+let imgData;
 let undoArray = [];
 let redoArray = [];
 
@@ -84,16 +85,6 @@ function drawShape(x2, y2) {
     }
 }
 
-// The x and y positions are offset to match the mouse's position to draw a continuous line
- function movePen(e) {
-    if (!isDrawing) return;
-    if (currentTool === 'pen') {
-        drawLine(coordinates.x, coordinates.y, e.offsetX, e.offsetY);
-        coordinates.x = e.offsetX;
-        coordinates.y = e.offsetY;
-    }
- }
-
 // When the user presses down on their mouse, isDrawing is set to true and the line's beginning is offest to match the user's position
 function startDrawing(e) {
     isDrawing = true;
@@ -105,6 +96,23 @@ function startDrawing(e) {
     else {
         points.x1 = e.offsetX;
         points.y1 = e.offsetY;
+    }
+    // Copies the pixel data for the whole canvas
+    imgData = ctx.getImageData(0, 0, c.width, c.height);
+}
+
+// The x and y positions are offset to match the mouse's position to draw a continuous line
+function movePen(e) {
+    if (!isDrawing) return;
+    if (currentTool === 'pen') {
+        drawLine(coordinates.x, coordinates.y, e.offsetX, e.offsetY);
+        coordinates.x = e.offsetX;
+        coordinates.y = e.offsetY;
+    }
+    else {
+        // Shows shape as user is moving the cursor
+        ctx.putImageData(imgData, 0, 0);
+        drawShape(e.offsetX, e.offsetY);
     }
 }
 
