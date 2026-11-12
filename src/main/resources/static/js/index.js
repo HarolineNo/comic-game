@@ -13,6 +13,7 @@ let currentTool = 'pen';
 let isDrawing = false;
 let brushSize = 5;
 let imgData;
+let timesClicked = 0;
 let undoArray = [];
 let redoArray = [];
 
@@ -99,6 +100,7 @@ function startDrawing(e) {
     }
     // Copies the pixel data for the whole canvas
     imgData = ctx.getImageData(0, 0, c.width, c.height);
+    undoArray.push(imgData);
 }
 
 // The x and y positions are offset to match the mouse's position to draw a continuous line
@@ -148,6 +150,11 @@ function changeBrushSize(e) {
     ctx.lineWidth = brushSize;
 }
 
+function getUndo() {
+    let img = undoArray.pop();
+    ctx.putImageData(img, 0, 0);
+}
+
 rectBtn.addEventListener('click', () => {
     currentTool = 'rect';
 });
@@ -165,4 +172,4 @@ c.addEventListener('mousedown', startDrawing);
 c.addEventListener('mousemove', movePen);
 c.addEventListener('mouseup', stopDrawing);
 slider.addEventListener('change', changeBrushSize);
-
+undoBtn.addEventListener('click', getUndo);
