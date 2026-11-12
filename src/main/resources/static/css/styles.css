@@ -1,14 +1,14 @@
-.tool-set {
-    display: flex;
-    flex-direction: column;
-}
-
-.color-option, .clear-canvas, .undo, .redo {
+.color-option {
     width: 1.5rem;
     height: 1.5rem;
 }
 
-.clear-canvas, .undo, .redo {
+.tool-btn {
+    width: 2rem;
+    height: 2rem;
+}
+
+.material-symbols-outlined {
     display: flex;
     align-items: center;
     justify-content: center;
