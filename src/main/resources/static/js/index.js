@@ -31,33 +31,57 @@ function drawLine(x1, y1, x2, y2) {
     ctx.stroke();
 }
 
+// Function to draw a rectangle based on their start and end point
 function drawRect(x1, y1, x2, y2) {
     ctx.beginPath();
     ctx.lineWidth = brushSize;
+    // Height and width is calculated basd on the difference from the start and end coordinates
     ctx.rect(x1, y1, x2 - x1, y2 - y1);
     ctx.stroke();
 }
 
+// Function to draw a square based on their start and end point
 function drawSquare(x1, y1, x2) {
     ctx.beginPath();
     ctx.lineWidth = brushSize;
+    // Uses the difference of the start and end position for both height and width to get equal length sides
     ctx.rect(x1, y1, x2 - x1, x2 - x1);
     ctx.stroke();
 }
 
-function drawCircle(x1, y1, x2) {
+// Function to draw a circle based on their start and end point
+function drawCircle(x1, y1, x2, y2) {
     ctx.beginPath();
     ctx.lineWidth = brushSize;
-    ctx.arc(x1, y1, x2 - x1, 0, 2 * Math.PI);
+    // Creates a circle using arc
+    // Absolute value is used so the circle can be drawn from left and right
+    ctx.arc(x1, y1, Math.abs(x2 - x1), 0, 2 * Math.PI);
     ctx.stroke();
 }
 
+// Function to draw a straight line based on their start and end point
 function drawLineSegment(x1, y1, x2, y2) {
     ctx.beginPath();
-    ctx.linewidth = brushSize;
+    ctx.lineWidth = brushSize;
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
     ctx.stroke();
+}
+
+// Draw shape based on the current tool (whichever shape button was pressed)
+function drawShape(x2, y2) {
+    if (currentTool === 'rect') {
+        drawRect(points.x1, points.y1, x2, y2);
+    }
+    else if (currentTool === 'square') {
+        drawSquare(points.x1, points.y1, x2);
+    }
+    else if (currentTool === 'circle') {
+        drawCircle(points.x1, points.y1, x2, y2);
+    }
+    else if (currentTool === 'lineSegment') {
+        drawLineSegment(points.x1, points.y1, x2, y2);
+    }
 }
 
 // The x and y positions are offset to match the mouse's position to draw a continuous line
@@ -77,7 +101,8 @@ function startDrawing(e) {
         coordinates.x = e.offsetX;
         coordinates.y = e.offsetY;
     }
-    else if (currentTool !== 'pen') {
+    // If any shape button was pressed, change value in dictionary for x1 and x2 to the starting position
+    else {
         points.x1 = e.offsetX;
         points.y1 = e.offsetY;
     }
@@ -91,25 +116,8 @@ function startDrawing(e) {
         coordinates.x = 0;
         coordinates.y = 0;
     }
-    else if (currentTool === 'rect') {
-        points.x2 = e.offsetX;
-        points.y2 = e.offsetY;
-        drawRect(points.x1, points.y1, points.x2, points.y2);
-    }
-    else if (currentTool === 'square') {
-        points.x2 = e.offsetX;
-        points.y2 = e.offsetY;
-        drawSquare(points.x1, points.y1, points.x2);
-    }
-    else if (currentTool === 'circle') {
-        points.x2 = e.offsetX;
-        points.y2 = e.offsetY;
-        drawCircle(points.x1, points.y1, points.x2);
-    }
-    else if (currentTool === 'lineSegment') {
-        points.x2 = e.offsetX;
-        points.y2 = e.offsetY;
-        drawLineSegment(points.x1, points.y1, points.x2, points.y2);
+    else {
+        drawShape(e.offsetX, e.offsetY);
     }
     currentTool = 'pen';
     isDrawing = false;
