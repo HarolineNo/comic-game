@@ -1,19 +1,19 @@
 const c = document.getElementById('canvas');
 const slider = document.getElementById('slider');
-let rectBtn = document.getElementById('rectangle');
-let squareBtn = document.getElementById('square');
-let circleBtn = document.getElementById('circle');
-let lineSegmentBtn = document.getElementById('line-segment');
+const penBtn = document.getElementById('pen');
+const rectBtn = document.getElementById('rectangle');
+const squareBtn = document.getElementById('square');
+const circleBtn = document.getElementById('circle');
+const lineSegmentBtn = document.getElementById('line-segment');
 const undoBtn = document.getElementById('undo');
 const redoBtn = document.getElementById('redo');
-const ctx = c.getContext('2d');
+const ctx = c.getContext('2d', { willReadFrequently: true });
 let coordinates = {x:0, y:0};
 let points = {x1:0, y1:0, x2:0, y2:0};
 let currentTool = 'pen';
 let isDrawing = false;
 let brushSize = 5;
 let imgData;
-let timesClicked = 0;
 let undoArray = [];
 let redoArray = [];
 
@@ -52,7 +52,7 @@ function drawSquare(x1, y1, x2) {
 }
 
 // Function to draw a circle based on their start and end point
-function drawCircle(x1, y1, x2, y2) {
+function drawCircle(x1, y1, x2) {
     ctx.beginPath();
     ctx.lineWidth = brushSize;
     // Creates a circle using arc
@@ -101,6 +101,8 @@ function startDrawing(e) {
     // Copies the pixel data for the whole canvas
     imgData = ctx.getImageData(0, 0, c.width, c.height);
     undoArray.push(imgData);
+    // Clears redo when starting a new drawing
+    redoArray = [];
 }
 
 // The x and y positions are offset to match the mouse's position to draw a continuous line
@@ -140,6 +142,8 @@ function changeColor(color) {
 
 // When user clicks the clear button, a filled white rectangle is filled starting from the top left, matching the canvas's proportions
 function clearCanvas() {
+    undoArray.push(ctx.getImageData(0, 0, c.width, c.height));
+    redoArray = [];
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, c.width, c.height)
 }
@@ -151,10 +155,24 @@ function changeBrushSize(e) {
 }
 
 function getUndo() {
-    let img = undoArray.pop();
-    ctx.putImageData(img, 0, 0);
+    if (undoArray.length > 0) {
+        redoArray.push(ctx.getImageData(0, 0, c.width, c.height));
+        let undoImg = undoArray.pop();
+        ctx.putImageData(undoImg, 0, 0);
+    }
 }
 
+function getRedo() {
+    if (redoArray.length > 0) {
+        undoArray.push(ctx.getImageData(0, 0, c.width, c.height));
+        let redoImg = redoArray.pop();
+        ctx.putImageData(redoImg, 0, 0);
+    }
+}
+
+penBtn.addEventListener('click', () => {
+    currentTool = 'pen';
+});
 rectBtn.addEventListener('click', () => {
     currentTool = 'rect';
 });
@@ -173,3 +191,4 @@ c.addEventListener('mousemove', movePen);
 c.addEventListener('mouseup', stopDrawing);
 slider.addEventListener('change', changeBrushSize);
 undoBtn.addEventListener('click', getUndo);
+redoBtn.addEventListener('click', getRedo);

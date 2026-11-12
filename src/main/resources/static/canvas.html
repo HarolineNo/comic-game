@@ -1,7 +1,6 @@
 <!--
 TO DO
 
--add functional undo and redo
 -add fill bucket that fills in closed shapes
 -add sound and visual effects set
 -add timer
@@ -12,7 +11,7 @@ TO DO
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=delete,redo,undo,square,rectangle,circle,diagonal_line,colors,ink_eraser" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=delete,redo,undo,square,rectangle,circle,diagonal_line,colors,stylus" />
     <link rel="stylesheet" type="text/css" href="css/styles.css" th:href="@{/css/styles.css}"/>
     <title>Drawing Canvas</title>
 </head>
@@ -32,10 +31,10 @@ TO DO
             <button type="button" class="color-option white" onClick="changeColor('white')"></button>
         </div>
         <div class="tool-set">
-            <button type="button" class="erase tool-btn" onClick="changeColor('white')">
-                <span class="material-symbols-outlined">ink_eraser</span>
+            <button type="button" id="pen" class="tool-btn">
+                <span class="material-symbols-outlined">stylus</span>
             </button>
-            <button type="button" class="clear-canvas tool-btn" onClick="clearCanvas()">
+            <button type="button" id ="clear-canvas" class="tool-btn" onClick="clearCanvas()">
                 <span class="material-symbols-outlined">delete</span>
             </button>
             <button type="button" id="undo" class="tool-btn">
