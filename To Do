@@ -1,0 +1,9 @@
+SEQUENCE
+-host starts a lobby
+-a code is generated and others join
+-user writes prompt
+-they draw the first panel of their prompt
+-the first panel and the prompt is randomly sent to another user
+-turn number is displayed atop
+-they draw the next part of the story, keep going until last turn (5)
+-going down each player, each story is displayed in order
