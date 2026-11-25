@@ -3,7 +3,7 @@ const slider = document.getElementById('slider');
 const penBtn = document.getElementById('pen');
 const rectBtn = document.getElementById('rectangle');
 const squareBtn = document.getElementById('square');
-const circleBtn = document.getElementById('circle');
+const ellipseBtn = document.getElementById('ellipse');
 const lineSegmentBtn = document.getElementById('line-segment');
 const undoBtn = document.getElementById('undo');
 const redoBtn = document.getElementById('redo');
@@ -51,13 +51,12 @@ function drawSquare(x1, y1, x2) {
     ctx.stroke();
 }
 
-// Function to draw a circle based on their start and end point
-function drawCircle(x1, y1, x2) {
+// Function to draw an ellipse based on their start and end point
+function drawEllipse(x1, y1, x2, y2) {
     ctx.beginPath();
     ctx.lineWidth = brushSize;
-    // Creates a circle using arc
-    // Absolute value is used so the circle can be drawn from left and right
-    ctx.arc(x1, y1, Math.abs(x2 - x1), 0, 2 * Math.PI);
+    // Absolute value is used so the ellipse can be drawn from left and right
+    ctx.ellipse(x1, y1, Math.abs(x2 - x1), Math.abs(y2 - y1), 0, 0, 2 * Math.PI);
     ctx.stroke();
 }
 
@@ -78,8 +77,8 @@ function drawShape(x2, y2) {
     else if (currentTool === 'square') {
         drawSquare(points.x1, points.y1, x2);
     }
-    else if (currentTool === 'circle') {
-        drawCircle(points.x1, points.y1, x2, y2);
+    else if (currentTool === 'ellipse') {
+        drawEllipse(points.x1, points.y1, x2, y2);
     }
     else if (currentTool === 'lineSegment') {
         drawLineSegment(points.x1, points.y1, x2, y2);
@@ -131,7 +130,6 @@ function movePen(e) {
     else {
         drawShape(e.offsetX, e.offsetY);
     }
-    currentTool = 'pen';
     isDrawing = false;
 }
 
@@ -179,8 +177,8 @@ rectBtn.addEventListener('click', () => {
 squareBtn.addEventListener('click', () => {
     currentTool = 'square';
 });
-circleBtn.addEventListener('click', () => {
-    currentTool = 'circle';
+ellipseBtn.addEventListener('click', () => {
+    currentTool = 'ellipse';
 });
 lineSegmentBtn.addEventListener('click', () => {
     currentTool = 'lineSegment';
