@@ -58,6 +58,13 @@
     background-color: white;
 }
 
+#color-wheel {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    background-image: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+}
+
 canvas {
     border: 1px solid black;
 }
